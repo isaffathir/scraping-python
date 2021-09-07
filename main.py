@@ -17,7 +17,7 @@ mydba = mysql.connector.connect(
 
 cursor = mydba.cursor()
 cursor.execute("DROP TABLE IF EXISTS trend ")
-sql = "CREATE TABLE trend (id INT AUTO_INCREMENT PRIMARY KEY,channelId VARCHAR(255),title VARCHAR(255),channelName VARCHAR(255),publishedAt VARCHAR(255))"
+sql = "CREATE TABLE trend (id INT AUTO_INCREMENT PRIMARY KEY,channel_id VARCHAR(255),title VARCHAR(255),channel_title VARCHAR(255),published_at VARCHAR(255))"
 cursor.execute(sql)
 
 api_key = "AIzaSyD4XgHiLKFQRH2d9h-OBYQ0dskStxDwFwI"
@@ -91,7 +91,7 @@ for video in items:
 )
 
     cursor = mydb.cursor()
-    cursor.execute(f"INSERT INTO `trend`(`channelId`, `title`, `channelName`, `publishedAt`) VALUES ('{channelid}','{value}','{channel}','{upload_date}')")
+    cursor.execute(f"INSERT INTO `trend`(`channel_id`, `title`, `channel_title`, `published_at`) VALUES ('{channelid}','{value}','{channel}','{upload_date}')")
 
     mydb.commit()
     mydb.close()
