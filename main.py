@@ -96,6 +96,9 @@ for video in items:
     mydb.commit()
     mydb.close()
     cursor.close()
+
+print("Sukses memasukan ke database")
+print("untuk file csv silahkan lihat di folder result")
     
 writer.writerow(head)
 for d in lines:
