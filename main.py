@@ -1,13 +1,11 @@
 import csv
 from os import write
-import time
 from typing import Text
 from googleapiclient.discovery import build
 import requests
 import sys
-import configparser
 import mysql.connector
-import argparse
+
 
 
 mydba = mysql.connector.connect(
