@@ -1,5 +1,5 @@
-# scrapping-python
-Youtube Trending Scrapping Python
+# scraping-python
+Youtube Trending Scraping Python
 
 Doit First :
 
