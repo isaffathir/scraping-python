@@ -9,7 +9,6 @@ import configparser
 import mysql.connector
 import argparse
 
-# print(config.sections())
 
 mydba = mysql.connector.connect(
   host="localhost",
@@ -18,8 +17,6 @@ mydba = mysql.connector.connect(
   database="mydatabase"
 )
 
-
-# print(db)
 cursor = mydba.cursor()
 cursor.execute("DROP TABLE IF EXISTS trend ")
 sql = "CREATE TABLE trend (id INT AUTO_INCREMENT PRIMARY KEY,channelId VARCHAR(255),judul VARCHAR(255),channelName VARCHAR(255),publishedAt VARCHAR(255))"
@@ -50,23 +47,14 @@ def api_req():
         sys.exit()
     return request.json()
 
-# response = api_req()
-# print(response)
 
 
 def get_tags(tags_list):
-    # Takes a list of tags, prepares each tag and joins them into a string by the pipe character
     return prepare_feature("|".join(tags_list))
 
 
-# print(api_req)
 video_data_page = api_req()
 items = video_data_page.get('items', [])
-
-# jalan = request.execute()
-# print(jalan)
-
-# print(items)
 
 file = open('result/youtube_trending.csv', 'w', newline='', encoding='utf8')
 writer = csv.writer(file)
@@ -115,4 +103,3 @@ writer.writerow(head)
 for d in lines:
     writer.writerow(d)
 file.close
-# print(data)
