@@ -1,19 +1,38 @@
 import csv
 from os import write
 import time
+from typing import Text
 from googleapiclient.discovery import build
 import requests
 import sys
+import configparser
+import mysql.connector
+import argparse
+
+# print(config.sections())
+
+mydba = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="mydatabase"
+)
+
+
+# print(db)
+cursor = mydba.cursor()
+cursor.execute("DROP TABLE IF EXISTS trend ")
+sql = "CREATE TABLE trend (id INT AUTO_INCREMENT PRIMARY KEY,channelId VARCHAR(255),judul VARCHAR(255),channelName VARCHAR(255),publishedAt VARCHAR(255))"
+cursor.execute(sql)
 
 api_key = "AIzaSyD4XgHiLKFQRH2d9h-OBYQ0dskStxDwFwI"
-
+#Ganti dengan api masing masing,kalo mau hehe
 country_code = "ID"
 
 snippet_features = ["title",
                     "publishedAt",
                     "channelId",
-                    "channelTitle",
-                    "categoryId"]
+                    "channelTitle"]
 
 unsafe_characters = ['\n', '"']
 
@@ -70,20 +89,28 @@ for video in items:
                 for feature in snippet_features]
 
     upload_date = snippet.get("publishedAt")
-    channel_id = snippet.get("channelId")
+    channelid = snippet.get("channelId")
     channel = snippet.get("channelTitle")
     title = snippet.get("title")
+    value = title.replace("'", "''")
 
 
-    lines.append([channel_id,                                                             # 
-                 title,channel,upload_date,"-"])
-    # lines = [video_id, ]
-    # line = [video_id] + features + [prepare_feature(x) for x in [trending_date, tags, view_count, likes, dislikes,
-    #                                                              comment_count, thumbnail_link, comments_disabled,
-    #                                                              ratings_disabled, description]]
-    # lines.append(",".join(line))
+    lines.append([channelid,title,channel,upload_date])
 
-    print(snippet)
+    mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="mydatabase"
+)
+
+    cursor = mydb.cursor()
+    cursor.execute(f"INSERT INTO `trend`(`channelId`, `judul`, `channelName`, `publishedAt`) VALUES ('{channelid}','{value}','{channel}','{upload_date}')")
+
+    mydb.commit()
+    mydb.close()
+    cursor.close()
+    
 writer.writerow(head)
 for d in lines:
     writer.writerow(d)
